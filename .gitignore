@@ -1,0 +1,20 @@
+# Go binaries
+bin/
+dist/
+build/
+
+# Coverage
+coverage.out
+*.out
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db

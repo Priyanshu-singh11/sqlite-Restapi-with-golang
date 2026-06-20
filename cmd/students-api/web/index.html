@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg: #0a0a0b;
+            --surface: #111114;
+            --card: #16161a;
+            --border: #24242b;
+
+            --text: #fafafa;
+            --text-secondary: #9ca3af;
+
+            --accent: #00d4aa;
+            --accent-soft: rgba(0, 212, 170, .15);
+
+            --max-width: 1024px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Container */
+
+        .container {
+            max-width: var(--max-width);
+            margin: auto;
+        }
+
+        /* Header */
+
+        .header {
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+        }
+
+        /* Student List */
+
+        .student-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Row */
+
+        .student-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 22px;
+
+            border-radius: 20px;
+
+            background: var(--card);
+
+            border: 1px solid var(--border);
+
+            transition: .3s ease;
+        }
+
+        .student-row:hover {
+            border-color: rgba(0, 212, 170, .3);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .25);
+        }
+
+        /* Left */
+
+        .student-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* Avatar */
+
+        .avatar {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+
+            background: var(--accent-soft);
+
+            color: var(--accent);
+
+            border: 1px solid rgba(0, 212, 170, .2);
+
+            flex-shrink: 0;
+        }
+
+        /* Content */
+
+        .student-content h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .student-content p {
+            color: var(--text-secondary);
+            font-size: .92rem;
+        }
+
+        /* Right */
+
+        .student-right {
+            text-align: right;
+        }
+
+        .age {
+            display: inline-flex;
+
+            padding: 8px 14px;
+
+            border-radius: 999px;
+
+            background: var(--accent-soft);
+
+            color: var(--accent);
+
+            font-size: .85rem;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .student-id {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .85rem;
+        }
+
+        /* Empty State */
+
+        .empty {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: var(--text-secondary);
+        }
+
+        /* Mobile */
+
+        @media(max-width:768px) {
+
+            .student-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .student-right {
+                width: 100%;
+                text-align: left;
+            }
+
+            .age {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Student Directory</h1>
+            <p>Registered Students</p>
+        </div>
+
+        <div class="student-list">
+
+            <div class="student-row">
+
+                <div class="student-left">
+                    <div class="avatar">PS</div>
+
+                    <div class="student-content">
+                        <h3>Priyanshu Singh</h3>
+                        <p>priyanshu@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="student-right">
+                    <span class="age">Age 21</span>
+                    <span class="student-id">#001</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const studentGrid = document.getElementById("studentGrid");
+
+        function initials(name) {
+            return name
+                .split(" ")
+                .map(word => word[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase();
+        }
+
+        async function loadStudents() {
+            try {
+                const res = await fetch("/api/students");
+                const students = await res.json();
+
+                if (!students.length) {
+                    studentGrid.innerHTML = `
+                        <div class="empty">
+                            <h2>No Students Found</h2>
+                            <p>Your database is currently empty.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                studentGrid.innerHTML = students.map(student => `
+                    <div class="student-card">
+                        
+                        <div class="avatar">
+                            ${initials(student.name)}
+                        </div>
+
+                        <div class="name">
+                            ${student.name}
+                        </div>
+
+                        <div class="email">
+                            ${student.email}
+                        </div>
+
+                        <div class="footer">
+                            <span class="badge">
+                                Age: ${student.age}
+                            </span>
+
+                            <span class="id">
+                                ID #${student.id}
+                            </span>
+                        </div>
+
+                    </div>
+                `).join("");
+
+            } catch (error) {
+                studentGrid.innerHTML = `
+                    <div class="empty">
+                        <h2>Server Error</h2>
+                        <p>Could not fetch student records.</p>
+                    </div>
+                `;
+            }
+        }
+
+        loadStudents();
+    </script>
+
+</body>
+
+</html>

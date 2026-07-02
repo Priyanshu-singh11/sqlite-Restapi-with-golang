@@ -31,7 +31,6 @@ A production-ready REST API built with **Go**, **Gin**, and **SQLite** demonstra
 - Clean Architecture
 - Error Handling
 - Request Validation
-- Middleware Support
 
 ---
 

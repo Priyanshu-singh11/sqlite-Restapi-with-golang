@@ -1,11 +1,11 @@
 #A SIMPLE PROJECT FOR TECHING MY FRIENDS 
-# SQLite REST API with Golang
+# SQLite REST API with Golang : 
 
 A production-ready REST API built with **Go**, **Gin**, and **SQLite** demonstrating clean project architecture, CRUD operations, request validation, middleware, and database integration.
 
 ---
 
-## Tech Stack
+## Tech Stack : 
 
 ![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![Gin](https://img.shields.io/badge/Gin-%2300ADD8.svg?style=for-the-badge&logo=gin&logoColor=white)
